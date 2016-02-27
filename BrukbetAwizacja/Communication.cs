@@ -15,6 +15,8 @@ namespace BrukbetAwizacja
 
         public abstract string SendMessage(string message);
 
+        public abstract string SendMessage(byte[] bytes);
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

@@ -53,7 +53,7 @@ namespace BrukbetAwizacja
         {
             if (!line.Contains("Godz"))
             {
-                string[] array = line.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] array = line.Split(new char[] { ':' }, StringSplitOptions.None);
                 if(array.Length == 2)
                 {
                     array[0] = array[0].Substring(1).Trim();

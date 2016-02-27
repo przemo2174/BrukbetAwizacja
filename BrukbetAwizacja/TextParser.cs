@@ -14,7 +14,7 @@ namespace BrukbetAwizacja
 
     public static class TextParser
     {
-        public static string CreateMessage(Dictionary<string, string> dictionary, List<TimeSpan> time, NotificationType notificationType)
+        public static byte[] CreateMessage(Dictionary<string, string> dictionary, List<TimeSpan> time, NotificationType notificationType)
         {
             StringBuilder message = new StringBuilder();
 
@@ -32,7 +32,7 @@ namespace BrukbetAwizacja
             return AddHeaderAndChecksum(message.ToString(), notificationType);
         }
 
-        private static string AddHeaderAndChecksum(string message, NotificationType notificationType)
+        private static byte[] AddHeaderAndChecksum(string message, NotificationType notificationType)
         {
             byte startByte;
             if (notificationType == NotificationType.GreenNotification)
@@ -45,14 +45,16 @@ namespace BrukbetAwizacja
             frame[0] = startByte;
             Array.Copy(data, 0, frame, 1, data.Length);
             frame[frame.Length - 1] = (byte)(0x7F & (frame.Length - 1));
-            return Encoding.ASCII.GetString(frame);
+            return frame;
         }
 
         private static string FormatNumber(string number)
         {
             int length = number.Length;
-            if (number.Length == 6 || number == "")
+            if (number.Length == 6)
                 return number;
+            if (number == "")
+                return "------";
             StringBuilder builder = new StringBuilder(6);
             for (int i = 1; i <= 6 - length; i++)
                 builder.Append("-");
