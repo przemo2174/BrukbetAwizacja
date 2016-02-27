@@ -7,12 +7,6 @@ using System.IO;
 
 namespace BrukbetAwizacja
 {
-    public enum NotificationType
-    {
-        GreenNotification = 0,
-        RedNotification
-    }
-
     public class TextReader : IDisposable
     {
         StreamReader reader;
@@ -59,11 +53,11 @@ namespace BrukbetAwizacja
         {
             if (!line.Contains("Godz"))
             {
-                string[] array = line.Split(new char[] { ':' }, StringSplitOptions.None);
+                string[] array = line.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
                 if(array.Length == 2)
                 {
-                    array[0] = array[0].Substring(1);
-                    array[1].Trim();
+                    array[0] = array[0].Substring(1).Trim();
+                    array[1] = array[1].Trim();
                     if (notificationStatus == NotificationStatus.Current)
                         CurrentNotifications.Add(array[0], array[1]);
                     else if (notificationStatus == NotificationStatus.Pending)
@@ -73,7 +67,7 @@ namespace BrukbetAwizacja
             else
             {
                 string[] array = line.Split(new char[] { ':' }, 2);
-                array[1].Trim();
+                array[1] = array[1].Trim();
                 string[] time = array[1].Split(':');
                 int hour = Int32.Parse(time[0]);
                 int minutes = Int32.Parse(time[1]);
