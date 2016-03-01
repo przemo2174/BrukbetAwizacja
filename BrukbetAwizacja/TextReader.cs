@@ -69,8 +69,8 @@ namespace BrukbetAwizacja
                 string[] array = line.Split(new char[] { ':' }, 2);
                 array[1] = array[1].Trim();
                 string[] time = array[1].Split(':');
-                int hour = Int32.Parse(time[0]);
-                int minutes = Int32.Parse(time[1]);
+                int hour = int.Parse(time[0]);
+                int minutes = int.Parse(time[1]);
                 if (notificationStatus == NotificationStatus.Current)
                     TimeCurrentNotifications.Add(new TimeSpan(hour, minutes, 0));
                 else
@@ -87,7 +87,7 @@ namespace BrukbetAwizacja
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    reader.Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.

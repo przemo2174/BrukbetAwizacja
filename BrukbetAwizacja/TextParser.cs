@@ -23,7 +23,7 @@ namespace BrukbetAwizacja
             foreach(string key in keys)
             {
                 string id = "N" + key;
-                message.Append(id + "=" + TextParser.FormatNumber(dictionary[key]));
+                message.Append(id + "=" + FormatNumber(dictionary[key]));
             }
             message.Append("GOD=" + time[0].ToString(@"hh\:mm") + ":");
             message.Append("GDO=" + time[1].ToString(@"hh\:mm") + ":");
@@ -44,8 +44,17 @@ namespace BrukbetAwizacja
             byte[] frame = new byte[data.Length + 2];
             frame[0] = startByte;
             Array.Copy(data, 0, frame, 1, data.Length);
-            frame[frame.Length - 1] = (byte)(0x7F & (frame.Length - 1));
+            byte checksum = CalculateChecksum(frame);
+            frame[frame.Length - 1] = (byte)(0x7F & checksum);
             return frame;
+        }
+
+        private static byte CalculateChecksum(byte[] bytes)
+        {
+            byte sum = 0;
+            for (int i = 0; i < bytes.Length - 1; i++)
+                sum += bytes[i];
+            return sum;
         }
 
         private static string FormatNumber(string number)
@@ -54,10 +63,10 @@ namespace BrukbetAwizacja
             if (number.Length == 6)
                 return number;
             if (number == "")
-                return "------";
+                return "      ";
             StringBuilder builder = new StringBuilder(6);
             for (int i = 1; i <= 6 - length; i++)
-                builder.Append("-");
+                builder.Append(" ");
             return builder.Append(number).ToString();
         }
     }

@@ -19,7 +19,7 @@ namespace BrukbetAwizacjaTest
         {
             textReader = new TextReader(path);
             textReader.ReadText();
-            byte[] message = TextParser.CreateMessage(textReader.CurrentNotifications, textReader.TimeCurrentNotifications, NotificationType.RedNotification);
+            byte[] message = TextParser.CreateMessage(textReader.CurrentNotifications, textReader.TimeCurrentNotifications, NotificationType.GreenNotification);
             TestContext.Write(BitConverter.ToString(message));
             TestContext.WriteLine();
             TestContext.Write(message.Length);
