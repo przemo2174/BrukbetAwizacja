@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
+using BrukbetAwizacja;
 
 namespace BrukbetAwizacjaTest
 {
@@ -12,9 +14,9 @@ namespace BrukbetAwizacjaTest
     public class FileAccessTests
     {
         [Test]
-        public void FileAccess()
+        public void FileEquality()
         {
-            File.Copy("\\\\przemo2174-pc\\Users\\przemo2174\\test.txt", "D:\\kopia1.txt");
+            Assert.IsFalse(FileManager.FilesAreEqual("D:\\Awizacja.txt", "D:\\kopia.txt"));
         }
     }
 }

@@ -19,7 +19,8 @@ namespace BrukbetAwizacjaTest
             EthernetCommunication connection = new EthernetCommunication("127.0.0.1", 5544);
             TextReader reader = new TextReader(path);
             reader.ReadText();
-            byte[] message = TextParser.CreateMessage(reader.CurrentNotifications, reader.TimeCurrentNotifications, NotificationType.GreenNotification);
+            TextParser parser = new TextParser(reader);
+            byte[] message = parser.CreateMessage(NotificationStatus.Pending, NotificationType.GreenNotification);
             string response = connection.SendMessage(message);
             TestContext.WriteLine(response);
         }

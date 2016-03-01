@@ -11,7 +11,7 @@ namespace BrukbetAwizacjaTest
     [TestFixture]
     public class TextReaderTests
     {
-        string path = @"D:\Awizacja.txt";
+        /*string path = @"D:\Awizacja.txt";
         TextReader textReader;
 
         [Test]
@@ -60,6 +60,6 @@ namespace BrukbetAwizacjaTest
         {
             foreach (TimeSpan time in list)
                 TestContext.WriteLine("Time: {0}", time);
-        }
+        }*/
     }
 }

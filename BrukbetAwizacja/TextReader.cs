@@ -9,17 +9,11 @@ namespace BrukbetAwizacja
 {
     public class TextReader : IDisposable
     {
-        StreamReader reader;
-        public Dictionary<string, string> CurrentNotifications { get; }
-        public Dictionary<string, string> PendingNotifications { get; }
-        public List<TimeSpan> TimeCurrentNotifications {get;}
-        public List<TimeSpan> TimePendingNotifications { get; }
-
-        private enum NotificationStatus
-        {
-            Current = 0,
-            Pending
-        }
+        private StreamReader reader;
+        internal Dictionary<string, string> CurrentNotifications { get; }
+        internal Dictionary<string, string> PendingNotifications { get; }
+        internal List<TimeSpan> TimeCurrentNotifications {get;}
+        internal List<TimeSpan> TimePendingNotifications { get; }
 
         public TextReader(string path)
         {

@@ -19,7 +19,8 @@ namespace BrukbetAwizacjaTest
         {
             textReader = new TextReader(path);
             textReader.ReadText();
-            byte[] message = TextParser.CreateMessage(textReader.CurrentNotifications, textReader.TimeCurrentNotifications, NotificationType.GreenNotification);
+            TextParser parser = new TextParser(textReader);
+            byte[] message = parser.CreateMessage(NotificationStatus.Current, NotificationType.GreenNotification);
             TestContext.Write(BitConverter.ToString(message));
             TestContext.WriteLine();
             TestContext.Write(message.Length);
@@ -31,8 +32,9 @@ namespace BrukbetAwizacjaTest
         {
             textReader = new TextReader(path);
             textReader.ReadText();
+            TextParser parser = new TextParser(textReader);
             //TestContext.WriteLine(TextParser.CreateMessage(textReader.PendingNotifications, textReader.TimePendingNotifications, NotificationType.GreenNotification));
-            byte[] message = TextParser.CreateMessage(textReader.PendingNotifications, textReader.TimePendingNotifications, NotificationType.GreenNotification);
+            byte[] message = parser.CreateMessage(NotificationStatus.Pending, NotificationType.RedNotification);
             //foreach (byte data in message)
             //    TestContext.Write(BitConverter.ToString(data));
             TestContext.Write(BitConverter.ToString(message));

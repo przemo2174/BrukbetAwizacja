@@ -56,6 +56,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enums.cs" />
+    <Compile Include="FileManager.cs" />
     <Compile Include="TextParser.cs" />
     <Compile Include="TextReader.cs" />
     <Page Include="MainWindow.xaml">

@@ -23,6 +23,15 @@ namespace BrukbetAwizacja
         public MainWindow()
         {
             InitializeComponent();
+            FileManager manager = new FileManager("D://");
+            manager.Changed += ((sender, e) =>
+            {
+                MessageBox.Show("Event occured: " + e.ChangeType);
+            });
+            manager.Renamed += ((sender, e) =>
+            {
+                MessageBox.Show("Event occuredr: " + e.ChangeType);
+            });
         }
     }
 }
