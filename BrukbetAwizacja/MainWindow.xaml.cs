@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace BrukbetAwizacja
 {
@@ -26,7 +27,10 @@ namespace BrukbetAwizacja
             FileManager manager = new FileManager("D://");
             manager.Changed += ((sender, e) =>
             {
+                FileSystemWatcher watcher = sender as FileSystemWatcher;
+                watcher.EnableRaisingEvents = false;
                 MessageBox.Show("Event occured: " + e.ChangeType);
+                watcher.EnableRaisingEvents = true;
             });
             manager.Renamed += ((sender, e) =>
             {

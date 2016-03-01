@@ -11,7 +11,9 @@ namespace BrukbetAwizacja
     public class FileManager : IDisposable
     {
         private FileSystemWatcher watcher;
+
         public string Path { get; }
+
         public event FileSystemEventHandler Changed
         {
             add

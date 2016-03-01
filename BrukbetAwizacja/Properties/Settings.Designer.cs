@@ -22,5 +22,17 @@ namespace BrukbetAwizacja.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Ipaddress {
+            get {
+                return ((string)(this["Ipaddress"]));
+            }
+            set {
+                this["Ipaddress"] = value;
+            }
+        }
     }
 }
