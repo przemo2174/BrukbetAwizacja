@@ -11,7 +11,24 @@ namespace BrukbetAwizacja
     {
         public static bool IsIPValid(string ip)
         {
-            return Regex.IsMatch(ip, @"([0-9]{3}\.){3}[0-9]");
+            try
+            {
+                string[] octets = ip.Split('.');
+                if (octets.Length != 4)
+                    return false;
+                foreach(string octet in octets)
+                {
+                    int number = int.Parse(octet);
+                    if (!(number <= 255 && number >= 0))
+                        return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
     }
 }

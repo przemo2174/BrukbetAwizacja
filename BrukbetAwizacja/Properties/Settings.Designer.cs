@@ -26,12 +26,24 @@ namespace BrukbetAwizacja.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Ipaddress {
+        public string IpAddress {
             get {
-                return ((string)(this["Ipaddress"]));
+                return ((string)(this["IpAddress"]));
             }
             set {
-                this["Ipaddress"] = value;
+                this["IpAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Nie wybrano żadnego pliku")]
+        public string FilePath {
+            get {
+                return ((string)(this["FilePath"]));
+            }
+            set {
+                this["FilePath"] = value;
             }
         }
     }

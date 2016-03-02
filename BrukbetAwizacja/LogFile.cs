@@ -20,7 +20,7 @@ namespace BrukbetAwizacja
         {
             using (StreamWriter writer = File.AppendText(Path))
             {
-                writer.WriteLine("{0} {1} => {3}", DateTime.Now.ToLongTimeString(), DateTime.Now.ToLongDateString(), message);
+                writer.WriteLine("{0} {1} => {2}", DateTime.Now.ToLongTimeString(), DateTime.Now.ToLongDateString(), message);
             }
         }
     }

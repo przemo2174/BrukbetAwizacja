@@ -56,15 +56,16 @@ namespace BrukbetAwizacja
                 if (!line.Contains("Godz"))
                 {
                     string[] array = line.Split(new char[] { ':' }, StringSplitOptions.None);
-                    if (array.Length != 2)
-                        throw new Exception();
+                    if (array.Length == 2)
+                    {
+                        array[0] = array[0].Substring(1).Trim();
+                        array[1] = array[1].Trim();
+                        if (notificationStatus == NotificationStatus.Current)
+                            CurrentNotifications.Add(array[0], array[1]);
+                        else if (notificationStatus == NotificationStatus.Pending)
+                            PendingNotifications.Add(array[0], array[1]);
+                    }
                     
-                    array[0] = array[0].Substring(1).Trim();
-                    array[1] = array[1].Trim();
-                    if (notificationStatus == NotificationStatus.Current)
-                        CurrentNotifications.Add(array[0], array[1]);
-                    else if (notificationStatus == NotificationStatus.Pending)
-                        PendingNotifications.Add(array[0], array[1]);
                     
                 }
                 else

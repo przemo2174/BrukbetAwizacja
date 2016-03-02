@@ -17,11 +17,11 @@ namespace BrukbetAwizacja
             this.textReader = textReader;
         }
 
-        public byte[] CreateMessage(NotificationStatus notificationStatus, NotificationType notificationType)
+        public byte[] CreateMessage(NotificationType notificationType)
         {
             StringBuilder message = new StringBuilder();
-            Dictionary<string, string> dictionary = notificationStatus == NotificationStatus.Current ? textReader.CurrentNotifications : textReader.PendingNotifications;
-            List<TimeSpan> time = notificationStatus == NotificationStatus.Current ? textReader.TimeCurrentNotifications : textReader.TimePendingNotifications;
+            Dictionary<string, string> dictionary = notificationType == NotificationType.GreenNotification ? textReader.CurrentNotifications : textReader.PendingNotifications;
+            List<TimeSpan> time = notificationType == NotificationType.GreenNotification ? textReader.TimeCurrentNotifications : textReader.TimePendingNotifications;
 
             List<string> keys = dictionary.Keys.ToList();
             keys.Sort();

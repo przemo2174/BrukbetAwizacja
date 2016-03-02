@@ -9,7 +9,8 @@ namespace BrukbetAwizacja
     public enum NotificationType
     {
         GreenNotification = 0,
-        RedNotification
+        RedNotification,
+        None
     }
 
     public enum NotificationStatus

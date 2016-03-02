@@ -13,5 +13,6 @@ namespace BrukbetAwizacja
     /// </summary>
     public partial class App : Application
     {
+       
     }
 }

@@ -2,8 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BrukbetAwizacja.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Ipaddress" Type="System.String" Scope="User">
+    <Setting Name="IpAddress" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Nie wybrano żadnego pliku</Value>
     </Setting>
   </Settings>
 </SettingsFile>
