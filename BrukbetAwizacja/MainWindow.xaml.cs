@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using BrukbetAwizacja;
 
 namespace BrukbetAwizacja
 {
@@ -21,6 +22,8 @@ namespace BrukbetAwizacja
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string filename;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,6 +39,28 @@ namespace BrukbetAwizacja
             {
                 MessageBox.Show("Event occuredr: " + e.ChangeType);
             });
+        }
+
+        private void txbIP_LostKeyboardFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox txb = sender as TextBox;
+            if (!Validation.IsIPValid(txb.Text))
+                MessageBox.Show("Wrong ip address");
+        }
+
+        private void btnOpen_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog fileDialog = new Microsoft.Win32.OpenFileDialog();
+            fileDialog.DefaultExt = ".txt";
+            fileDialog.Filter = "Pliki Tekstowe (*.txt)|*.txt";
+
+            bool? result = fileDialog.ShowDialog();
+
+            if(result == true)
+            {
+                filename = fileDialog.FileName;
+                lblPath.Content = filename;
+            }
         }
     }
 }

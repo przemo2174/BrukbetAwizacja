@@ -76,6 +76,7 @@
     <Compile Include="LogFile.cs" />
     <Compile Include="TextParser.cs" />
     <Compile Include="TextReader.cs" />
+    <Compile Include="Validation.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
