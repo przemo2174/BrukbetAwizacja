@@ -23,22 +23,28 @@ namespace BrukbetAwizacja
     public partial class MainWindow : Window
     {
         private string filename;
+        private FileManager fileManager;
 
         public MainWindow()
         {
             InitializeComponent();
             LoadUserSettings();
-            FileManager manager = new FileManager("D://");
-            manager.Changed += ((sender, e) =>
+        }
+
+        private void InitializeFileWatcher(string path)
+        {
+            fileManager = new FileManager(path);
+            fileManager.Changed += ((sender, e) =>
             {
                 FileSystemWatcher watcher = sender as FileSystemWatcher;
                 watcher.EnableRaisingEvents = false;
-                MessageBox.Show("Event occured: " + e.ChangeType);
+
+                Dispatcher.Invoke(() =>
+                {
+                    Send();
+                });
+
                 watcher.EnableRaisingEvents = true;
-            });
-            manager.Renamed += ((sender, e) =>
-            {
-                MessageBox.Show("Event occuredr: " + e.ChangeType);
             });
         }
        
@@ -61,6 +67,8 @@ namespace BrukbetAwizacja
                 return NotificationType.GreenNotification;
             else if (checkboxGreen.IsChecked == false && checkboxRed.IsChecked == true)
                 return NotificationType.RedNotification;
+            else if (checkboxGreen.IsChecked == true && checkboxRed.IsChecked == true)
+                return NotificationType.Both;
             else
                 return NotificationType.None;
         }
@@ -82,22 +90,42 @@ namespace BrukbetAwizacja
             {
                 filename = fileDialog.FileName;
                 lblPath.Content = filename;
+                InitializeFileWatcher(System.IO.Path.GetDirectoryName(filename));
             }
         }     
 
-        private void checkboxGreen_Checked(object sender, RoutedEventArgs e)
-        {
-            checkboxGreen.IsChecked = true;
-            checkboxRed.IsChecked = false;
-        }
-
-        private void checkboxRed_Checked(object sender, RoutedEventArgs e)
-        {
-            checkboxRed.IsChecked = true;
-            checkboxGreen.IsChecked = false;
-        }
+       
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
+        {
+            Send();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveUserSettings();
+        }
+
+        private void SaveAndPrintLogs(string message, NotificationType notificationType)
+        {
+            LogFile logFile = new LogFile(".\\logs.txt");
+            string log;
+            if (notificationType == NotificationType.GreenNotification)
+                log = logFile.AddLogMessage(message, notificationType);
+            else 
+                log = logFile.AddLogMessage(message, notificationType);
+            listBox.Items.Add(log);
+        }
+
+        private void SendMessage(NotificationType notificationType, TextParser parser)
+        {
+            byte[] message = parser.CreateMessage(notificationType);
+            EthernetCommunication ethernet = new EthernetCommunication(txbIP.Text, 23);
+            string response = ethernet.SendMessage(message);
+            SaveAndPrintLogs(response, notificationType);
+        }
+
+        private void Send()
         {
             if (Validation.IsIPValid(txbIP.Text))
             {
@@ -111,12 +139,15 @@ namespace BrukbetAwizacja
                             TextReader textReader = new TextReader(lblPath.Content.ToString());
                             textReader.ReadText();
                             TextParser parser = new TextParser(textReader);
-                            byte[] message = parser.CreateMessage(notificationType);
-                            EthernetCommunication ethernet = new EthernetCommunication(txbIP.Text, 9000);
-                            string response = ethernet.SendMessage(message);
-                            LogFile logFile = new LogFile(".\\logs.txt");
-                            logFile.AddLogMessage(response);
+                            if (notificationType == NotificationType.Both)
+                            {
+                                SendMessage(NotificationType.GreenNotification, parser);
+                                SendMessage(NotificationType.RedNotification, parser);
+                            }
+                            else
+                                SendMessage(notificationType, parser);
                         }
+
                         catch (Exception ex)
                         {
                             MessageBox.Show("Wystąpił błąd: " + ex.Message);
@@ -127,15 +158,11 @@ namespace BrukbetAwizacja
                 }
                 else
                     MessageBox.Show("Nie wybrano żadnego pliku!");
-                
+
             }
             else
                 MessageBox.Show("Błędny format adresu IP!");
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            SaveUserSettings();
-        }
     }
 }

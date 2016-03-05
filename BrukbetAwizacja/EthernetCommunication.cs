@@ -8,6 +8,14 @@ using System.Net;
 
 namespace BrukbetAwizacja
 {
+    public class ConnectionException : Exception
+    {
+        public ConnectionException(string message) : base(message)
+        {
+            
+        }
+    }
+
     public class EthernetCommunication : Communication
     {
         byte[] buffer = new byte[128];
@@ -47,7 +55,13 @@ namespace BrukbetAwizacja
             {
                 sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 endPoint = new IPEndPoint(ipAddress, port);
-                sender.Connect(endPoint);
+                sender.ReceiveTimeout = 500;
+                IAsyncResult result = sender.BeginConnect(endPoint, null, null);
+                bool success = result.AsyncWaitHandle.WaitOne(3000, true);
+
+                if (!success)
+                    throw new ConnectionException("Brak połączenia z konwerterem");
+
                 int bytesSend = sender.Send(bytes);
 
                 int bytesReceived = sender.Receive(buffer);
@@ -57,7 +71,7 @@ namespace BrukbetAwizacja
                     case "G":
                         return "Ramka została wysłana pomyślnie";
                     case "S":
-                        return "Błąd cyfr";
+                        return "Błąd cyfr lub sumy kontrolnej";
                     case "R":
                         return "Błąd ramki";
                     case "P":
@@ -65,7 +79,7 @@ namespace BrukbetAwizacja
                     case "Q":
                         return "Błąd prefiksu";
                     default:
-                        return "Błąd niezydentyfikowany";
+                        return value;
                 }
             }
             catch

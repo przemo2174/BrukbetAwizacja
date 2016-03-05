@@ -16,11 +16,11 @@ namespace BrukbetAwizacjaTest
         [Test]
         public void TestMethod()
         {
-            EthernetCommunication connection = new EthernetCommunication("127.0.0.1", 5544);
+            EthernetCommunication connection = new EthernetCommunication("192.168.1.145", 23);
             TextReader reader = new TextReader(path);
             reader.ReadText();
             TextParser parser = new TextParser(reader);
-            byte[] message = parser.CreateMessage(NotificationStatus.Pending, NotificationType.GreenNotification);
+            byte[] message = parser.CreateMessage(NotificationType.GreenNotification);
             string response = connection.SendMessage(message);
             TestContext.WriteLine(response);
         }
