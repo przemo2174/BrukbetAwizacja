@@ -29,7 +29,10 @@ namespace BrukbetAwizacja
         {
             InitializeComponent();
             LoadUserSettings();
+            if (Properties.Settings.Default.FilePath != "")
+                InitializeFileWatcher(System.IO.Path.GetDirectoryName(Properties.Settings.Default.FilePath));
         }
+
 
         private void InitializeFileWatcher(string path)
         {
@@ -41,7 +44,8 @@ namespace BrukbetAwizacja
 
                 Dispatcher.Invoke(() =>
                 {
-                    Send();
+                    if(ValidateAllInput())
+                        Send(NotificationType.Both);
                 });
 
                 watcher.EnableRaisingEvents = true;
@@ -61,7 +65,7 @@ namespace BrukbetAwizacja
             Properties.Settings.Default.Save();
         }
 
-        private NotificationType ValidateCheckBoxes()
+        private NotificationType GetCheckBoxesValue()
         {
             if (checkboxGreen.IsChecked == true && checkboxRed.IsChecked == false)
                 return NotificationType.GreenNotification;
@@ -71,6 +75,13 @@ namespace BrukbetAwizacja
                 return NotificationType.Both;
             else
                 return NotificationType.None;
+        }
+
+        private bool AreCheckBoxesChecked()
+        {
+            if (checkboxGreen.IsChecked == false && checkboxRed.IsChecked == false)
+                return false;
+            return true;
         }
 
         private bool IsFileLoaded()
@@ -98,7 +109,12 @@ namespace BrukbetAwizacja
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
         {
-            Send();
+            if (ValidateAllInput())
+            {
+                NotificationType notificationType = GetCheckBoxesValue();
+                Send(notificationType);
+            }
+                
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -125,44 +141,46 @@ namespace BrukbetAwizacja
             SaveAndPrintLogs(response, notificationType);
         }
 
-        private void Send()
+        private bool ValidateAllInput()
         {
-            if (Validation.IsIPValid(txbIP.Text))
+            if (!Validation.IsIPValid(txbIP.Text))
             {
-                if (IsFileLoaded())
-                {
-                    NotificationType notificationType = ValidateCheckBoxes();
-                    if (notificationType != NotificationType.None)
-                    {
-                        try
-                        {
-                            TextReader textReader = new TextReader(lblPath.Content.ToString());
-                            textReader.ReadText();
-                            TextParser parser = new TextParser(textReader);
-                            if (notificationType == NotificationType.Both)
-                            {
-                                SendMessage(NotificationType.GreenNotification, parser);
-                                SendMessage(NotificationType.RedNotification, parser);
-                            }
-                            else
-                                SendMessage(notificationType, parser);
-                        }
-
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Wystąpił błąd: " + ex.Message);
-                        }
-                    }
-                    else
-                        MessageBox.Show("Nie zaznaczono statusu awizacji!");
-                }
-                else
-                    MessageBox.Show("Nie wybrano żadnego pliku!");
-
+                MessageBox.Show("Błędny format adresu IP");
+                return false;
             }
-            else
-                MessageBox.Show("Błędny format adresu IP!");
+            if(!IsFileLoaded())
+            {
+                MessageBox.Show("Nie wybrano żadnego pliku!");
+                return false;
+            }
+            if(!AreCheckBoxesChecked())
+            {
+                MessageBox.Show("Nie zaznaczono statusu awizacji!");
+                return false;
+            }
+            return true;
         }
 
+        private void Send(NotificationType notificationType)
+        {
+            try
+            {
+                TextReader textReader = new TextReader(lblPath.Content.ToString());
+                textReader.ReadText();
+                TextParser parser = new TextParser(textReader);
+                if (notificationType == NotificationType.Both)
+                {
+                    SendMessage(NotificationType.GreenNotification, parser);
+                    SendMessage(NotificationType.RedNotification, parser);
+                }
+                else
+                    SendMessage(notificationType, parser);
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Wystąpił błąd: " + ex.Message);
+            }
+        }
     }
 }

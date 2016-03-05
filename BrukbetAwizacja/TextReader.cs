@@ -83,7 +83,6 @@ namespace BrukbetAwizacja
             }
             catch
             {
-
                 throw;
             }
             
