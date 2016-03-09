@@ -50,6 +50,7 @@ namespace BrukbetAwizacja
 
                 watcher.EnableRaisingEvents = true;
             });
+            fileManager.Dispose();
         }
        
         private void LoadUserSettings()
@@ -124,21 +125,34 @@ namespace BrukbetAwizacja
 
         private void SaveAndPrintLogs(string message, NotificationType notificationType)
         {
-            LogFile logFile = new LogFile(".\\logs.txt");
-            string log;
-            if (notificationType == NotificationType.GreenNotification)
+            try
+            {
+                LogFile logFile = new LogFile(".\\logs.txt");
+                string log;
                 log = logFile.AddLogMessage(message, notificationType);
-            else 
-                log = logFile.AddLogMessage(message, notificationType);
-            listBox.Items.Add(log);
+                listBox.Items.Add(log);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Wystąpił błąd: " + ex.Message);
+            }
+            
         }
 
         private void SendMessage(NotificationType notificationType, TextParser parser)
         {
-            byte[] message = parser.CreateMessage(notificationType);
-            EthernetCommunication ethernet = new EthernetCommunication(txbIP.Text, 23);
-            string response = ethernet.SendMessage(message);
-            SaveAndPrintLogs(response, notificationType);
+            try
+            {
+                byte[] message = parser.CreateMessage(notificationType);
+                EthernetCommunication ethernet = new EthernetCommunication(txbIP.Text, 23);
+                string response = ethernet.SendMessage(message);
+                SaveAndPrintLogs(response, notificationType);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Wystąpił błąd: " + ex.Message);
+            }
+            
         }
 
         private bool ValidateAllInput()

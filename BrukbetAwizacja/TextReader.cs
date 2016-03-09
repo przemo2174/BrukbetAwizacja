@@ -44,9 +44,7 @@ namespace BrukbetAwizacja
 
                     ParseLine(line, notificationStatus);
                 }
-            }
-            
-                
+            }            
         }
 
         private void ParseLine(string line, NotificationStatus notificationStatus)
