@@ -43,16 +43,6 @@ namespace BrukbetAwizacjaTest
         }
 
         [Test]
-        public void CreateMessageStringTest()
-        {
-            textReader = new TextReader(path);
-            textReader.ReadText();
-            TextParser parser = new TextParser(textReader);
-            byte[] message = parser.CreateMessage(NotificationType.RedNotification);
-            TestContext.Write(Encoding.ASCII.GetString(message));
-        }
-
-        [Test]
         public void LengthOfHex()
         {
             StringBuilder s = new StringBuilder();

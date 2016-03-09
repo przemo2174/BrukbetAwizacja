@@ -58,7 +58,7 @@ namespace BrukbetAwizacja
             return (byte)(sum & 0x7F);
         }
 
-        private static string FormatNumber(string number, bool toLeft = true)
+        private static string FormatNumber(string number)
         {
             int length = number.Length;
             if (number.Length == 6)
@@ -66,13 +66,6 @@ namespace BrukbetAwizacja
             if (number == "")
                 return "      ";
             StringBuilder builder = new StringBuilder(6);
-            if(toLeft)
-            {
-                builder.Append(number);
-                for (int i = 1; i <= 6 - length; i++)
-                    builder.Append(" ");
-                return builder.ToString();
-            }
             for (int i = 1; i <= 6 - length; i++)
                 builder.Append(" ");
             return builder.Append(number).ToString();
