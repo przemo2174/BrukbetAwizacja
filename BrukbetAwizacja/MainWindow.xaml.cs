@@ -29,7 +29,7 @@ namespace BrukbetAwizacja
         {
             InitializeComponent();
             LoadUserSettings();
-            if (Properties.Settings.Default.FilePath != "")
+            if (Properties.Settings.Default.FilePath != "" && Properties.Settings.Default.FilePath != "Nie wybrano żadnego pliku")
                 InitializeFileWatcher(System.IO.Path.GetDirectoryName(Properties.Settings.Default.FilePath));
         }
 
@@ -130,7 +130,6 @@ namespace BrukbetAwizacja
                 log = logFile.AddLogMessage(message, notificationType);
             else 
                 log = logFile.AddLogMessage(message, notificationType);
-            listBox.Items.Clear();
             listBox.Items.Add(log);
         }
 
