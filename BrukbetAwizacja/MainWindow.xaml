@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BrukbetAwizacja"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="700" Closing="Window_Closing">
+        Title="BrukbetAwizacja" Height="420" Width="800" Closing="Window_Closing">
     <Grid Background="#FFC9DABF">
-        <Button x:Name="btnOpen" Click="btnOpen_Click" Content="Otwórz" HorizontalAlignment="Left" Margin="537,231,0,0" VerticalAlignment="Top" Width="75"/>
-        <Label x:Name="lblIP" Content="Adres IP Konwertera" HorizontalAlignment="Left" Margin="48,26,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txbIP" HorizontalAlignment="Left" Height="23" Margin="48,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="lblPath" Content="Nie wybrano żadnego pliku" HorizontalAlignment="Left" Margin="295,225,0,0" VerticalAlignment="Top" Width="222"/>
-        <Label x:Name="lblPathDesc" Content="Ścieżka do pliku:" HorizontalAlignment="Left" Margin="295,199,0,0" VerticalAlignment="Top" Width="194"/>
-        <Button x:Name="btnSend" Click="btnSend_Click" Content="Wyślij" HorizontalAlignment="Left" Margin="48,228,0,0" VerticalAlignment="Top" Width="75"/>
-        <CheckBox x:Name="checkboxGreen" Content="Bieżąca Awizacja" IsChecked="True" Foreground="DarkGreen" HorizontalAlignment="Left" Margin="48,140,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkboxRed" Content="Oczekująca Awizacja" IsChecked="True" Foreground="Red" HorizontalAlignment="Left" Margin="48,174,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="146" Margin="295,43,0,0" VerticalAlignment="Top" Width="387"/>
+        <Button x:Name="btnOpen" Click="btnOpen_Click" Content="Otwórz" HorizontalAlignment="Left" Margin="625,274,0,0" VerticalAlignment="Top" Width="90" Height="35"/>
+        <Label x:Name="lblIP" Content="Adres IP Konwertera" HorizontalAlignment="Left" Margin="45,57,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txbIP" HorizontalAlignment="Left" Height="23" Margin="42,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="lblPath" Content="Nie wybrano żadnego pliku" HorizontalAlignment="Left" Margin="362,283,0,0" VerticalAlignment="Top" Width="222"/>
+        <Label x:Name="lblPathDesc" Content="Ścieżka do pliku:" HorizontalAlignment="Left" Margin="362,252,0,0" VerticalAlignment="Top" Width="194"/>
+        <Button x:Name="btnSend" Click="btnSend_Click" Content="Wyślij" HorizontalAlignment="Left" Margin="48,274,0,0" VerticalAlignment="Top" Width="90" Height="35"/>
+        <CheckBox x:Name="checkboxGreen" Content="Bieżąca Awizacja" IsChecked="True" Foreground="DarkGreen" HorizontalAlignment="Left" Margin="48,161,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkboxRed" Content="Oczekująca Awizacja" IsChecked="True" Foreground="Red" HorizontalAlignment="Left" Margin="48,194,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="152" Margin="332,57,0,0" VerticalAlignment="Top" Width="433"/>
 
     </Grid>
 </Window>
