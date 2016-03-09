@@ -130,6 +130,7 @@ namespace BrukbetAwizacja
                 log = logFile.AddLogMessage(message, notificationType);
             else 
                 log = logFile.AddLogMessage(message, notificationType);
+            listBox.Items.Clear();
             listBox.Items.Add(log);
         }
 
