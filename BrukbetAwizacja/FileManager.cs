@@ -48,22 +48,36 @@ namespace BrukbetAwizacja
 
         public static bool FilesAreEqual(string path1, string path2)
         {
+            byte[] firstHash = CalcualteMD5(path1);
+            byte[] secondHash = CalcualteMD5(path2);
+
+            for(int i = 0; i < firstHash.Length; i++)
+            {
+                if (firstHash[i] != secondHash[i])
+                    return false;
+            }
+            return true;
+        }
+
+        public static byte[] CalcualteMD5(string path)
+        {
             using (MD5 md5 = MD5.Create())
             {
-                Stream stream1 = File.OpenRead(path1);
-                Stream stream2 = File.OpenRead(path2);
-                byte[] firstHash = md5.ComputeHash(stream1);
-                byte[] secondHash = md5.ComputeHash(stream2);
-                stream1.Dispose(); stream1.Close();
-                stream2.Dispose(); stream2.Close();
-
-                for(int i = 0; i < firstHash.Length; i++)
+                using (Stream stream = File.OpenRead(path))
                 {
-                    if (firstHash[i] != secondHash[i])
-                        return false;
+                    return md5.ComputeHash(stream);
                 }
-                return true;
             }
+        }
+
+        public static bool AreMD5Equal(byte[] hash1, byte[] hash2)
+        {
+            for (int i = 0; i < hash1.Length; i++)
+            {
+                if (hash1[i] != hash2[i])
+                    return false;
+            }
+            return true;
         }
 
         public void Dispose()

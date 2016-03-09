@@ -23,16 +23,41 @@ namespace BrukbetAwizacja
     public partial class MainWindow : Window
     {
         private string filename;
+        private byte[] actualHash;
         private FileManager fileManager;
+        System.Windows.Threading.DispatcherTimer timer;
 
         public MainWindow()
         {
             InitializeComponent();
             LoadUserSettings();
-            if (Properties.Settings.Default.FilePath != "" && Properties.Settings.Default.FilePath != "Nie wybrano żadnego pliku")
-                InitializeFileWatcher(System.IO.Path.GetDirectoryName(Properties.Settings.Default.FilePath));
+            if (lblPath.Content.ToString() != "Nie wybrano żadnego pliku" && lblPath.Content.ToString() != "")
+                actualHash = FileManager.CalcualteMD5(lblPath.Content.ToString());
+            //InitializeFileWatcher(System.IO.Path.GetDirectoryName(Properties.Settings.Default.FilePath));
+            InitializeTimer();
         }
 
+        private void InitializeTimer()
+        {
+            timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Tick += Timer_Tick;
+            timer.Interval = new TimeSpan(0, 0, 8);
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.FilePath != "" && Properties.Settings.Default.FilePath != "Nie wybrano żadnego pliku")
+            {
+                byte[] hash = FileManager.CalcualteMD5(lblPath.Content.ToString());
+                if (!FileManager.AreMD5Equal(actualHash, hash))
+                {
+                    listBox.Items.Clear();
+                    Send(NotificationType.Both);
+                    actualHash = hash;
+                }
+            }
+        }
 
         private void InitializeFileWatcher(string path)
         {
@@ -50,7 +75,6 @@ namespace BrukbetAwizacja
 
                 watcher.EnableRaisingEvents = true;
             });
-            fileManager.Dispose();
         }
        
         private void LoadUserSettings()
@@ -102,16 +126,18 @@ namespace BrukbetAwizacja
             {
                 filename = fileDialog.FileName;
                 lblPath.Content = filename;
-                InitializeFileWatcher(System.IO.Path.GetDirectoryName(filename));
+                actualHash = FileManager.CalcualteMD5(lblPath.Content.ToString());
+                Properties.Settings.Default.FilePath = lblPath.Content.ToString();
+                //InitializeFileWatcher(System.IO.Path.GetDirectoryName(filename));
             }
-        }     
-
-       
+            
+        }           
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateAllInput())
             {
+                listBox.Items.Clear();
                 NotificationType notificationType = GetCheckBoxesValue();
                 Send(notificationType);
             }

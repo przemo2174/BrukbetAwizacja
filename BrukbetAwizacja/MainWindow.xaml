@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BrukbetAwizacja"
         mc:Ignorable="d"
-        Title="BrukbetAwizacjav1.2" Height="350" Width="700" Closing="Window_Closing">
+        Title="BrukbetAwizacjav1.4" Height="350" Width="700" Closing="Window_Closing">
     <Grid Background="#FFC9DABF">
         <Button x:Name="btnOpen" Click="btnOpen_Click" Content="Otwórz" HorizontalAlignment="Left" Margin="537,231,0,0" VerticalAlignment="Top" Width="75"/>
         <Label x:Name="lblIP" Content="Adres IP Konwertera" HorizontalAlignment="Left" Margin="48,26,0,0" VerticalAlignment="Top"/>
